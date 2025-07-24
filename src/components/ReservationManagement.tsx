@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Save, X, CheckCircle, XCircle, Clock, AlertCircle, Mail, Phone, Eye } from 'lucide-react';
+import { Edit, Save, X, CheckCircle, XCircle, Clock, AlertCircle, Mail, Phone, Eye, Trash2 } from 'lucide-react';
 import { useReservations } from '../hooks/useReservations';
 import { type Reservation } from '../lib/supabase';
 
