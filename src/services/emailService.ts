@@ -29,12 +29,13 @@ export const sendReservationConfirmationEmail = async (data: EmailData): Promise
     console.log('🔑 Configuration EmailJS:', { serviceId, templateId, publicKey: publicKey ? 'Défini' : 'Non défini' });
 
     if (!serviceId || !templateId || !publicKey) {
-      console.error('❌ Configuration EmailJS manquante:', {
+      console.warn('⚠️ Configuration EmailJS manquante:', {
         serviceId: serviceId ? 'Défini' : 'Manquant',
         templateId: templateId ? 'Défini' : 'Manquant',
         publicKey: publicKey ? 'Défini' : 'Manquant'
       });
-      throw new Error('Configuration EmailJS manquante. Veuillez configurer les variables d\'environnement EmailJS.');
+      console.warn('⚠️ EmailJS non configuré - l\'email de confirmation ne sera pas envoyé');
+      return false;
     }
 
     // Validation des données requises

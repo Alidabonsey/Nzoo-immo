@@ -107,12 +107,18 @@ export const createReservation = async (data: ReservationData) => {
     if (!emailSent) {
       console.warn(`⚠️ Email de confirmation non envoyé après ${maxEmailAttempts} tentatives, mais réservation créée avec succès`);
       
-      // Optionnel: Marquer dans la base de données que l'email n'a pas été envoyé
+      // Marquer dans la base de données que l'email n'a pas été envoyé
       try {
+        const reason = !import.meta.env.VITE_EMAILJS_SERVICE_ID || 
+                      !import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 
+                      !import.meta.env.VITE_EMAILJS_PUBLIC_KEY 
+                      ? 'Configuration EmailJS manquante' 
+                      : 'Échec d\'envoi après plusieurs tentatives';
+        
         await supabase
           .from('reservations')
           .update({ 
-            admin_notes: `Email de confirmation non envoyé automatiquement. Créé le ${new Date().toLocaleString('fr-FR')}` 
+            admin_notes: `Email de confirmation non envoyé automatiquement (${reason}). Créé le ${new Date().toLocaleString('fr-FR')}` 
           })
           .eq('id', reservation.id);
       } catch (updateError) {
